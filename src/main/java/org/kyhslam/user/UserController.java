@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -34,19 +35,13 @@ public class UserController {
     }
 
     @PostMapping("/users/")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         User savedUser = service.save(user);
-
-        HashMap<String,Object> rMap = new HashMap<>();
-
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedUser.getId())
                 .toUri();
-
-        rMap.put("url", location);
-        rMap.put("user", savedUser);
 
         return ResponseEntity.created(location).build();
     }
