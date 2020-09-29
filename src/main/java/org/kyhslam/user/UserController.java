@@ -54,4 +54,5 @@ public class UserController {
             throw new UserNotFoundException(String.format("ID[%s] not found ", id));
         }
     }
+
 }
